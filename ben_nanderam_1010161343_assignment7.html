@@ -10661,9 +10661,21 @@ Relate your explanation to the consequences of false positives and false negativ
 <span class="c1"># Create a DataFrame containing the mean</span>
 <span class="c1"># cross-validation performance of both models</span>
 <span class="n">cv_comparison</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-    <span class="s1">'baseline (5 words)'</span><span class="p">:</span> <span class="p">{</span><span class="n">m</span><span class="p">:</span> <span class="n">baseline_cv_results</span><span class="p">[</span><span class="sa">f</span><span class="s1">'test_</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s1">'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">scoring</span><span class="p">},</span>
-    <span class="s1">'candidate (6 words)'</span><span class="p">:</span> <span class="p">{</span><span class="n">m</span><span class="p">:</span> <span class="n">candidate_cv_results</span><span class="p">[</span><span class="sa">f</span><span class="s1">'test_</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s1">'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">scoring</span><span class="p">}</span>
-<span class="p">})</span>
+    <span class="s1">'baseline (5 words)'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="n">baseline_cv_results</span><span class="p">[</span><span class="s1">'test_accuracy'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="n">baseline_cv_results</span><span class="p">[</span><span class="s1">'test_precision'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="n">baseline_cv_results</span><span class="p">[</span><span class="s1">'test_recall'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="n">baseline_cv_results</span><span class="p">[</span><span class="s1">'test_f1'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="n">baseline_cv_results</span><span class="p">[</span><span class="s1">'test_roc_auc'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="p">],</span>
+    <span class="s1">'candidate (6 words)'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="n">candidate_cv_results</span><span class="p">[</span><span class="s1">'test_accuracy'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="n">candidate_cv_results</span><span class="p">[</span><span class="s1">'test_precision'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="n">candidate_cv_results</span><span class="p">[</span><span class="s1">'test_recall'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="n">candidate_cv_results</span><span class="p">[</span><span class="s1">'test_f1'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="n">candidate_cv_results</span><span class="p">[</span><span class="s1">'test_roc_auc'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="p">]</span>
+<span class="p">},</span> <span class="n">index</span> <span class="o">=</span> <span class="n">scoring</span><span class="p">)</span>
 
 <span class="n">cv_comparison</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
@@ -10791,7 +10803,6 @@ Briefly explain which feature set you would carry forward for the next stage of 
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Selected words: ['html', 'font', 'remove', 'please', 'money', 'wrote']
- ['html', 'font', 'remove', 'please', 'money', 'wrote']
 </pre>
 </div>
 </div>
@@ -11066,9 +11077,17 @@ Best CV F1-score is valid: True
 
 <span class="c1"># Create a table containing the mean CV results</span>
 <span class="n">model_comparison</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-    <span class="s1">'standard'</span><span class="p">:</span> <span class="p">{</span><span class="n">m</span><span class="p">:</span> <span class="n">tuned_cv</span><span class="p">[</span><span class="sa">f</span><span class="s1">'test_</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s1">'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">comparison_scoring</span><span class="p">},</span>
-    <span class="s1">'balanced'</span><span class="p">:</span> <span class="p">{</span><span class="n">m</span><span class="p">:</span> <span class="n">balanced_cv</span><span class="p">[</span><span class="sa">f</span><span class="s1">'test_</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s1">'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">comparison_scoring</span><span class="p">}</span>
-<span class="p">})</span>
+    <span class="s1">'standard'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="n">tuned_cv</span><span class="p">[</span><span class="s1">'test_precision'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="n">tuned_cv</span><span class="p">[</span><span class="s1">'test_recall'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="n">tuned_cv</span><span class="p">[</span><span class="s1">'test_f1'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="p">],</span>
+    <span class="s1">'balanced'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="n">balanced_cv</span><span class="p">[</span><span class="s1">'test_precision'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="n">balanced_cv</span><span class="p">[</span><span class="s1">'test_recall'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="n">balanced_cv</span><span class="p">[</span><span class="s1">'test_f1'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="p">]</span>
+<span class="p">},</span> <span class="n">index</span><span class="o">=</span><span class="n">comparison_scoring</span><span class="p">)</span>
 
 <span class="n">model_comparison</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
